@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+//importinh morgan
+const morgan = require('morgan');
 //importing products route
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
@@ -11,6 +13,8 @@ const orderRoutes = require('./api/routes/orders');
 //         message: 'Server works!'
 //     });
 // });
+
+app.use(morgan('dev'));
 
 //filter for produts Routes
 app.use('/products', productRoutes);
