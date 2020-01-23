@@ -1,0 +1,28 @@
+{
+  "name": "express-api-node-skrambler",
+  "version": "1.0.0",
+  "description": "A node.js REST API Project (to support Skrambler App)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PedroFerraz2012/express-api-node-skrambler.git"
+  },
+  "keywords": [
+    "node",
+    "restful",
+    "api",
+    "express"
+  ],
+  "author": "Pedro Ferraz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PedroFerraz2012/express-api-node-skrambler/issues"
+  },
+  "homepage": "https://github.com/PedroFerraz2012/express-api-node-skrambler#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
