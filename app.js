@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 //importinh morgan
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
+
 //importing products route
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
@@ -16,7 +18,9 @@ const orderRoutes = require('./api/routes/orders');
 
 //using morgan
 app.use(morgan('dev'));
-
+//using body parser, specifying with sort of body
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 //filter for produts Routes
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
