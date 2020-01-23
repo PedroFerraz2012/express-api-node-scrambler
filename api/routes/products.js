@@ -1,6 +1,9 @@
 const express = require('express');
 // importing Router from Express package
 const router = express.Router();
+const mongoose = require('mongoose');
+
+const Product = require('../models/product');
 
 //will get products after /products (it's set up at App.js), then
 // First argument is '/'
@@ -13,10 +16,23 @@ router.get('/', (req, res, next) =>{
 
 // same as above, but for POST
 router.post('/', (req, res, next) =>{
-    const product = {
+    //remove this after installing db, replacing with next statement (const)
+    // const product = {
+    //     name: req.body.name,
+    //     price: req.body.price
+    // };
+    const product = new Product({
+        _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price
-    }
+    });
+    //stores in DB with mongoose, returns a promise
+    product
+    .save()
+    .then(result => {
+        console.log(result);
+    })
+    .catch(err => console.log(err));
     res.status(200).json({
         message: 'Handling POST requests to /products',
         createdProduct: product

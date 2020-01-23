@@ -15,7 +15,9 @@ mongoose.connect(
     process.env.MONGO_ATLAS_PW +
     '@express-api-node-skrambler-nqd4b.mongodb.net/test?retryWrites=true&w=majority',
     {
-        useMongoclient: true
+        //useMongoclient: true, // DeprecationWarning asked to pass those next 2 options
+        useNewUrlParser: true,
+        useUnifiedTopology: true
     }
 );
 // this was the test to see if server is working
