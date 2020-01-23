@@ -21,6 +21,21 @@ app.use(morgan('dev'));
 //using body parser, specifying with sort of body
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+//adding headers handling
+// preventing cors errors
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); // * allows any http
+    res.header(
+        'Access-Contro-Allow-Headers',
+        'Origin, X-Requested-With', 'Content-Type', 'Accept', 'Authorization');
+if (req.method === 'OPTIONS'){
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+    return res.status(200).json({});
+}
+next();
+});
+
 //filter for produts Routes
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
