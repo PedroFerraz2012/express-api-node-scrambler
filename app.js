@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 //importing products route
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+const userRoutes = require('./api/routes/users');
 
 // MongoDB connection
 mongoose.connect(
@@ -54,6 +55,7 @@ app.use((req, res, next) => {
 //filter for produts Routes
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
+app.use('/user', userRoutes);
 
 // starting handling error and request
 app.use((req, res, next) => {
