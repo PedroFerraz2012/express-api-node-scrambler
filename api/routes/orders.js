@@ -12,6 +12,7 @@ router.get('/', (req, res, next) => {
     Order
     .find() // find all
     .select('product quantity _id')
+    .populate('product', 'name') //populates order with product details // second property selects only fiels you want
     .exec()
     .then(docs => {
         res.status(200).json({
@@ -88,6 +89,7 @@ return order.save();})
 
 router.get('/:orderId', (req, res, next) => {
     Order.findById(req.params.orderId)
+    .populate('product', 'name price') //populates order with product details // second property selects only fiels you want
     .exec()
     .then(order => {
         if(!order){
