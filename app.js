@@ -30,6 +30,8 @@ mongoose.connect(
 
 //using morgan
 app.use(morgan('dev'));
+// makes uploads folder static
+app.use('/uploads', express.static('uploads'));
 //using body parser, specifying with sort of body
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

@@ -10,6 +10,10 @@ const productSchema = mongoose.Schema({
     price: {
         type: Number,
         required: true // makes sure this field is given
+    },
+    productImage: {
+        type: String,
+        required: true
     }
 });
 
