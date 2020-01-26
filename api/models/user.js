@@ -5,7 +5,8 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true, // optimises the index, ensuring that's only one
+        //unique: true, // optimises the index, ensuring that's only one // depricated, replaced by the next index property
+        useCreateIndex: true,
         match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/ // validates the email
     },
     
