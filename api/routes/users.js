@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 //importing sjonwebtoken
 const jwt = require('jsonwebtoken');
+// import middleware Check-Auth for authorization
+const checkAuth = require('../middleware/check-auth');
 
 const User = require('../models/user');
 
@@ -101,7 +103,7 @@ router.post('/login', (req, res, next) => {
         });
 });
 
-router.delete('/:userId', (req, res, next) => {
+router.delete('/:userId', checkAuth, (req, res, next) => {
     User.deleteOne({
         _id: req.params.userId
     })
