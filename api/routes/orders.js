@@ -3,12 +3,14 @@ const express = require('express');
 const router = express.Router();
 //import mongoose
 const mongoose = require('mongoose');
+const checkAuth = require('../middleware/check-auth');
+
 //import order model
 const Order = require('../models/order');
 // import products
 const Product = require('../models/product');
  
-router.get('/', (req, res, next) => {
+router.get('/', checkAuth, (req, res, next) => {
     Order
     .find() // find all
     .select('product quantity _id')
@@ -40,7 +42,7 @@ router.get('/', (req, res, next) => {
     // });
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
 Product.findById(req.body.productId) // to ensure the product exists in DB
 .then(product => {
     if(!product){
@@ -87,7 +89,7 @@ return order.save();})
     // });
 });
 
-router.get('/:orderId', (req, res, next) => {
+router.get('/:orderId', checkAuth, (req, res, next) => {
     Order.findById(req.params.orderId)
     .populate('product', 'name price') //populates order with product details // second property selects only fiels you want
     .exec()
@@ -119,7 +121,7 @@ router.get('/:orderId', (req, res, next) => {
     // });
 });
 
-router.delete('/:orderId', (req, res, next) => {
+router.delete('/:orderId', checkAuth, (req, res, next) => {
     Order.remove({
         _id: req.params.orderId
     })

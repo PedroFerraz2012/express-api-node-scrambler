@@ -4,6 +4,8 @@ const router = express.Router();
 const mongoose = require('mongoose');
 //import multer
 const multer = require('multer');
+// import middleware Check-Auth for authorization
+const checkAuth = require('../middleware/check-auth');
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
@@ -85,7 +87,8 @@ router.get('/', (req, res, next) => {
 });
 
 // same as above, but for POST
-router.post('/', upload.single('productImage') ,(req, res, next) => {
+//Authorization sent as Header
+router.post('/', checkAuth, upload.single('productImage'), (req, res, next) => {
      console.log(req.file);
     //remove this after installing db, replacing with next statement (const)
     // const product = {
@@ -179,7 +182,7 @@ router.get('/:productId', (req, res, next) => {
 });
 
 //router using id - update
-router.patch('/:productId', (req, res, next) => {
+router.patch('/:productId', checkAuth, (req, res, next) => {
     const id = req.params.productId;
     const updateOps = {};
     // parameters to get value from frontend:
@@ -215,7 +218,7 @@ router.patch('/:productId', (req, res, next) => {
 });
 
 //router using id - delete
-router.delete('/:productId', (req, res, next) => {
+router.delete('/:productId', checkAuth, (req, res, next) => {
     const id = req.params.productId;
     Product
         .remove({ _id: id })
