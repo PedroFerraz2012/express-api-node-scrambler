@@ -1,6 +1,6 @@
 {
     "env":{
         "MONGO_ATLAS_PW": "g3tv0ud1z3r35(Y)",
-        "JWT_KEY": "secret" // can be changed as pswd
+        "JWT_KEY": "secret"
     }
 }
