@@ -10,8 +10,7 @@ const checkAuth = require('../middleware/check-auth');
 const User = require('../models/user');
 const Picture = require('../models/picture');
 
-
-//const Scrambler = require('../scramble/scrambling')
+const Jimp = require('jimp');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -68,8 +67,29 @@ router.post('/', checkAuth, upload.single('userPicture'), (req, res, next) => {
             picture
                 .save()
                 .then(result => {
-                    //console.log(result);
-                    //Scrambler.onFileChange(result.userPicture);
+                    console.log(result);
+                    
+                    
+                
+
+                // this works************
+                Jimp.read(result.userPicture, function(err, image){
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        image.resize(256,256)
+                        .quality(80)
+                        .write('uploads/'+req.file.filename+'_new.jpg')
+                    }
+                });
+                //************* */
+
+                
+
+                
+                    
+
                     res.status(201).json({
                         message: 'Created Picture successfully',
                         createdPicture: {
@@ -94,7 +114,7 @@ router.post('/', checkAuth, upload.single('userPicture'), (req, res, next) => {
                 //console.log(err);
             
         });
-});
+    });
 
 //router using id - GET
 router.get('/:user', (req, res, next) => {
