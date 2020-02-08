@@ -27,6 +27,11 @@ const pictureSchema = mongoose.Schema({
     userPicture: {
         type: String,
         required: true
+    },
+
+    blurPicture: {
+        type: String,
+        
     }
 });
 

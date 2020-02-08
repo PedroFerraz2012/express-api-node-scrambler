@@ -46,7 +46,7 @@ const upload = multer({ // call this method at post method
 
 
 router.post('/', checkAuth, upload.single('userPicture'), (req, res, next) => {
-    
+
 
     User.findById(req.body.user) // get user in DB
         .then(user => {
@@ -55,6 +55,7 @@ router.post('/', checkAuth, upload.single('userPicture'), (req, res, next) => {
                     message: 'User not found'
                 })
             }
+            console.log(req.body)
             const picture = new Picture({
                 _id: new mongoose.Types.ObjectId(),
                 user: req.body.user,
@@ -62,33 +63,35 @@ router.post('/', checkAuth, upload.single('userPicture'), (req, res, next) => {
                 hint: req.body.hint,
                 pswd: req.body.pswd,
                 userPicture: req.file.path,
+                blurPicture: 'uploads/blur' + req.file.filename
             });
             //stores in DB with mongoose, returns a promise
             picture
                 .save()
                 .then(result => {
-                    console.log(result);
-                    
-                    
-                
+                    //console.log(result);
 
-                // this works************
-                Jimp.read(result.userPicture, function(err, image){
-                    if(err){
-                        console.log(err);
-                    }
-                    else{
-                        image.resize(256,256)
-                        .quality(80)
-                        .write('uploads/'+req.file.filename+'_new.jpg')
-                    }
-                });
-                //************* */
 
-                
 
-                
-                    
+
+                    // this works************
+                    Jimp.read(result.userPicture, function (err, image) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            image.blur(15)
+                            image.convolute([
+                                [-2, -1, 0],
+                                [-1, 1, 1],
+                                [0, 1, 2]
+                            ])
+
+                                .quality(80)
+                                .write('uploads/blur' + req.file.filename)
+                        }
+                    });
+
 
                     res.status(201).json({
                         message: 'Created Picture successfully',
@@ -111,10 +114,10 @@ router.post('/', checkAuth, upload.single('userPicture'), (req, res, next) => {
                         error: err
                     })
                 });
-                //console.log(err);
-            
+            //console.log(err);
+
         });
-    });
+});
 
 //router using id - GET
 router.get('/:user', (req, res, next) => {
@@ -205,7 +208,7 @@ router.get('/', (req, res, next) => {
 //router using id - delete
 router.delete('/:pictureId', (req, res, next) => {
     const id = req.params.pictureId;
-    
+
 
     //also trying to delete the file
     // Picture.find({ _id: pictureId })
@@ -218,16 +221,16 @@ router.delete('/:pictureId', (req, res, next) => {
     //         //     count: docs.length,
     //         //     pictures: docs.map(doc => {
     //         //         return {
-                        
+
     //         //             userPicture: doc.userPicture,
     //         //         }
     //         //     })
     //         // }
     //     }
-            
+
     //         //fs.unlink(userPicture)=>{
 
-            
+
     //         )
 
     Picture
@@ -239,7 +242,7 @@ router.delete('/:pictureId', (req, res, next) => {
                 request: {
                     type: 'Post',
                     url: 'htttp://localhost:3000/pictures',
-                    body:{
+                    body: {
                         name: 'String',
                         type: 'formdata'
                     }
