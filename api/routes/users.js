@@ -105,6 +105,47 @@ router.post('/login', (req, res, next) => {
         });
 });
 
+router.get('/', (req, res, next) => {
+    //getting from MongoDB
+    User.find() // finds all
+        //where get more conditions
+        //limit get small number of results
+        .select( 'name _id email' ) // constrolls which data we want to fetch
+        .exec()
+        .then(docs => {
+            //console.log(docs);
+            const response = {
+                count: docs.length,
+                users: docs.map(doc => {
+                    return {
+                        name: doc.name,
+                        _id: doc._id,
+                        email: doc.email,
+                        request: {
+                            type: 'GET',
+                            url: 'http://localhost:3000/user/' + doc._id
+                        }
+                    }
+                })
+            }
+            if (docs.length >= 0) {
+                res.status(200).json(response); // positive response
+            } else {
+                res.status(404).json({
+                    message: 'No entries found' // in case there isnt data
+                })
+            }
+
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ // general errors
+                error: err
+            });
+        });
+
+});
+
 router.delete('/:userId', checkAuth, (req, res, next) => {
     User.deleteOne({
         _id: req.params.userId

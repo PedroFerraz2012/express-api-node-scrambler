@@ -35,8 +35,11 @@ app.use(morgan('dev'));
 // makes uploads folder static
 app.use('/uploads', express.static('uploads'));
 //using body parser, specifying with sort of body
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: false })); // trying to enlarge
+// Tell the bodyparser middleware to accept more data
+app.use(bodyParser.json({limit: '10mb'}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
+//app.use(bodyParser.json());
 
 //adding headers handling
 // preventing cors errors
