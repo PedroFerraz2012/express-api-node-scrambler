@@ -129,7 +129,7 @@ router.get('/:user', (req, res, next) => {
 
 
     Picture.find({ user: userId })
-        .select('name _id hint pswd userPicture user') // constrolls which data we want to fetch
+        .select('name _id hint pswd userPicture user blurPicture') // constrolls which data we want to fetch
         .exec()
         .then(docs => {
             console.log(docs);
@@ -141,6 +141,7 @@ router.get('/:user', (req, res, next) => {
                         name: doc.name,
                         hint: doc.hint,
                         userPicture: doc.userPicture,
+                        blurPicture: doc.blurPicture,
                         _id: doc._id,
                         pswd: doc.pswd,
                     }
